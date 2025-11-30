@@ -4,26 +4,25 @@ import java.util.Arrays;
 
 public class Cart {
 
-    public Item[] contents;
-    int index;
+    private Item[] contents;
+    private int index;
 
-    Cart(Item[] _contents) {
-        this.contents = _contents;
+    public Cart(Item[] contents) {
+        this.contents = contents;
     }
 
     public void removeById(int itemIndex) {
-
-        if (index == 0)
+        if (this.index == 0)
             return;
 
-        int foundItemIndex = findItemInArray(contents[itemIndex]);
+        int foundItemIndex = findItemInArray(this.contents[itemIndex]);
 
         if (foundItemIndex == -1)
             return;
 
-        if (foundItemIndex == index - 1) {
-            contents[index - 1] = null;
-            index--;
+        if (foundItemIndex == this.index - 1) {
+            this.contents[this.index - 1] = null;
+            this.index--;
             return;
         }
 
@@ -31,39 +30,48 @@ public class Cart {
     }
 
     public void shiftArray(int itemIndex) {
-        for (int i = itemIndex; i < index - 1; i++) {
-            contents[i] = contents[i + 1];
+        for (int i = itemIndex; i < this.index - 1; i++) {
+            this.contents[i] = this.contents[i + 1];
         }
-        contents[index-1] = null;
-        index--;
+        this.contents[this.index - 1] = null;
+        this.index--;
     }
 
     public int findItemInArray(Item item) {
-        for (int i = 0; i < index; i++) {
-            if (contents[i].id == item.id) {
+        for (int i = 0; i < this.index; i++) {
+            // Використовуємо геттер .getId()
+            if (this.contents[i].getId() == item.getId()) {
                 return i;
             }
         }
-
         return -1;
     }
 
-    void add(Item item) {
+    public void add(Item item) {
         if (isCartFull())
             return;
 
-        contents[index] = item;
-        index++;
+        this.contents[this.index] = item;
+        this.index++;
     }
 
     public boolean isCartFull() {
-        return index == contents.length;
+        return this.index == this.contents.length;
+    }
+
+
+    public int getCurrentSize() {
+        return this.index;
+    }
+
+    public Item getItemAtIndex(int i) {
+        return this.contents[i];
     }
 
     @Override
     public String toString() {
         return "Cart{" +
-                "contents=" + Arrays.toString(contents) +
+                "contents=" + Arrays.toString(this.contents) +
                 '}' + "\n";
     }
 }
